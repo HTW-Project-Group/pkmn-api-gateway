@@ -30,6 +30,7 @@ services:
       - rabbitmq
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-product:5432/shop_db
+      - spring_rabbitmq_host=rabbitmq
 
   # Basket Domain
   postgres-basket:
@@ -54,6 +55,7 @@ services:
       - rabbitmq
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-basket:5433/basket_db
+      - spring_rabbitmq_host=rabbitmq
 
   # Checkout Domain
   postgres-checkout:
@@ -78,6 +80,7 @@ services:
       - rabbitmq
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-checkout:5434/checkout_db
+      - spring_rabbitmq_host=rabbitmq
 
   # RabbitMQ
   rabbitmq:
