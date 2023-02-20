@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --color-black: #252525;
+    --color-grey: #777777;
+    --color-primary: #2979C1;
+    --color-secondary: #FFCB05;
+    --color-error: #D32F2F;
+}
+
+* {
+    font-family: Roboto, 'Segoe UI', sans-serif !important;
+}
+
+.login-pf body {
+    background-image: url("../img/keycloak-bg.png");
+}
+
+#kc-header-wrapper::after {
+    content: 'PKMN';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: #800;
+    color: #fff;
+}
+
+#kc-page-title {
+    position: relative;
+    padding: 50px 0 5px;
+}
+
+#kc-page-title::after {
+    content: '';
+    background: url("../img/logo192.png");
+    background-size: 100% 100%;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+.pf-c-button.pf-m-primary {
+    background-color: #1976D2 !important;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+    min-width: 64px;
+    padding: 6px 16px;
+    border-radius: 4px;
+    -webkit-transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    color: #fff;
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+}
+.pf-c-button.pf-m-primary:hover {
+    background-color: #1565C0 !important;
+    box-shadow:0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12);
+}
+.card-pf {
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 350px !important;
+    border: none !important;
+}
+
+.pf-c-form__label {
+    color: var(--color-grey);
+}

@@ -1,0 +1,109 @@
+version: '3.5'
+
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  # Prodcut Domain
+  postgres-product:
+    image: postgres:14.5-alpine
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=AWTAP0NOm0v6KNACjIf5E7UK
+      - POSTGRES_DB=shop_db
+    ports:
+      - '5432:5432'
+
+  product:
+    container_name: product-domain
+    build:
+      context: .
+      dockerfile: deployment/product/Product.Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres-product
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-product:5432/shop_db
+
+  # Basket Domain
+  postgres-basket:
+    image: postgres:14.5-alpine
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=AWTAP0NOm0v6KNACjIf5E7UK
+      - POSTGRES_DB=basket_db
+    ports:
+      - '5433:5433'
+    command: -p 5433
+
+  basket:
+    container_name: basket-domain
+    build:
+      context: .
+      dockerfile: deployment/basket/Basket.Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres-basket
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-basket:5433/basket_db
+
+  # Checkout Domain
+  postgres-checkout:
+    image: postgres:14.5-alpine
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=AWTAP0NOm0v6KNACjIf5E7UK
+      - POSTGRES_DB=checkout_db
+    ports:
+      - '5434:5434'
+    command: -p 5434
+
+  checkout:
+    container_name: checkout-domain
+    build:
+      context: .
+      dockerfile: deployment/checkout/Checkout.Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - postgres-checkout
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-checkout:5434/checkout_db
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  # Keycloak
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.0
+    command: ["start-dev", "--import-realm", "--spi-login-protocol-openid-connect-legacy-logout-redirect-uri=true"]
+    volumes:
+      - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+      - type: bind
+        source: ./keycloak/theme
+        target: /opt/keycloak/themes
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres-product
+      KC_DB_URL_DATABASE: shop_db
+      KC_DB_PASSWORD: AWTAP0NOm0v6KNACjIf5E7UK
+      KC_DB_USERNAME: admin
+      KC_DB_SCHEMA: public
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - '8180:8080'
